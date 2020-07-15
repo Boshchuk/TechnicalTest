@@ -1,0 +1,24 @@
+<h1 id="tableLabel">Employees List</h1>
+
+<p>This component demonstrates list with owners of each pet so we know how many pets the employees and their families have.</p>
+
+<p *ngIf="!employeesList"><em>Loading...</em></p>
+
+<table class='table table-sm table-striped' aria-labelledby="tableLabel" *ngIf="employeesList">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Last Name</th>
+      <th>Media Interactiva employee: Yes/No</th>
+      <th>List of Animals</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let employee of employeesList">
+      <td>{{ employee.name }}</td>
+      <td>{{ employee.lastName }}</td>
+      <td class="text-center">{{ employee.isMediaInteractivaEmployee | booleanToYesNo }}</td>
+      <td> --- </td>
+    </tr>
+  </tbody>
+</table>
