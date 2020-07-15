@@ -1,0 +1,22 @@
+<h1 id="tableLabel">Animals List</h1>
+
+<p>This component demonstrates list animals registered in system.</p>
+
+<p *ngIf="!animals"><em>Loading...</em></p>
+
+<table class='table table-sm table-striped' aria-labelledby="tableLabel" *ngIf="animals">
+  <thead>
+  <tr>
+    <th>Type</th>
+    <th>Name</th>
+    <th>Owner</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let animal of animals">
+      <td> --- </td>
+      <td>{{ animal.name }}</td>
+      <td>{{ animal.ownerDisplayName }}</td>
+    </tr>
+  </tbody>
+</table>

@@ -30,4 +30,27 @@ namespace TechnicalTest.Controllers
             return new List<EmployeeListItem> {item1, item2};
         }
     }
+
+    [ApiController]
+    [Route("animals-list")]
+    public class AnimalsListController
+    {
+        [HttpGet]
+        public IEnumerable<AnimalListItem> Get()
+        {
+            var cat = new AnimalListItem()
+            {
+                Name = "Tom The Cat",
+                OwnerDisplayName = "Owner1"
+            };
+
+            var dog = new AnimalListItem
+            {
+                Name = "Scybi",
+                OwnerDisplayName = "Shaggy Hair"
+            };
+
+            return new List<AnimalListItem> {cat, dog};
+        }
+    }
 }

@@ -11,6 +11,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { EmployeesListComponent } from './employees-list/employees-list.component';
 import { BooleanToYesNoPipe } from "./pipes/boolean-to-yes-no.pipe";
+import { AnimalsListComponent } from './animals-list/animals-list.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,8 @@ import { BooleanToYesNoPipe } from "./pipes/boolean-to-yes-no.pipe";
     CounterComponent,
     FetchDataComponent,
     EmployeesListComponent,
+    BooleanToYesNoPipe,
+    AnimalsListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -29,6 +32,7 @@ import { BooleanToYesNoPipe } from "./pipes/boolean-to-yes-no.pipe";
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
+      { path: 'animals-list', component: AnimalsListComponent },
       { path: 'employees-list', component: EmployeesListComponent },
     ])
   ],
