@@ -2,36 +2,36 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using TechnicalTest.Models;
-using TechnicalTest.Repositories.Interfaces;
+using TechnicalTest.Services.Interfaces;
 
 namespace TechnicalTest.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class EmployeesController
+    public class AnimalsController
     {
-        private readonly IEmployeesRepository _employeesRepository;
+        private readonly IAnimalsService _animalsService;
 
-        public EmployeesController(IEmployeesRepository employeesRepository)
+        public AnimalsController(IAnimalsService animalsService)
         {
-            _employeesRepository = employeesRepository;
+            _animalsService = animalsService;
         }
 
         [HttpGet]
-        public IEnumerable<Employee> Get()
+        public IEnumerable<Animal> Get()
         {
-            return _employeesRepository.GetAll();
+            return _animalsService.GetAnimals();
         }
 
         [HttpPost]
-        public IActionResult Post(Employee animal)
+        public IActionResult Post(Animal animal)
         {
             if (animal == null)
             {
                 return new BadRequestResult();
             }
  
-            var result = _employeesRepository.Add(animal);
+            var result = _animalsService.AddAnimal(animal);
 
             if (result == null)
             {
@@ -42,16 +42,16 @@ namespace TechnicalTest.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put(Employee animal)
+        public IActionResult Put(Animal animal)
         {
             if (animal == null)
             {
                 return new BadRequestResult();
             }
 
-            var employee = _employeesRepository.Update(animal);
+            var animalToUpdate = _animalsService.UpdateAnimal(animal);
 
-            if (employee == null)
+            if (animalToUpdate == null)
             {
                 return new NotFoundResult();
             }
@@ -62,7 +62,7 @@ namespace TechnicalTest.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(Guid id)
         {
-            var found = _employeesRepository.Delete(id);
+            var found = _animalsService.DeleteAnimal(id);
 
             if (!found)
             {

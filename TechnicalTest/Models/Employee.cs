@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace TechnicalTest.Models
 {
     [DataContract]
-    public class EmployeeListItem
+    public class Employee
     {
         [DataMember]
         public Guid Id { get; set; }
@@ -20,6 +20,6 @@ namespace TechnicalTest.Models
         public bool IsMediaInteractivaEmployee { get; set; }
 
         [DataMember]
-        public List<string> Animals { get; set; }
+        public List<Animal> Animals { get; set; }
     }
 }

@@ -4,19 +4,67 @@
 
 <p *ngIf="!animals"><em>Loading...</em></p>
 
-<table class='table table-sm table-striped' aria-labelledby="tableLabel" *ngIf="animals">
+<input type="button" value="Add" class="btn btn-primary"
+       [disabled] ="isNewRecord"
+       (click)="addAnimal()" />
+<table class='table table-sm table-striped' aria-labelledby="tableLabel" *ngIf="animals && animals.length > 0">
   <thead>
-  <tr>
-    <th>Type</th>
-    <th>Name</th>
-    <th>Owner</th>
-  </tr>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Owner</th>
+      <th></th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
     <tr *ngFor="let animal of animals">
-      <td> --- </td>
-      <td>{{ animal.name }}</td>
-      <td>{{ animal.ownerDisplayName }}</td>
+      <ng-template [ngTemplateOutlet]="loadTemplate(animal)"
+                   [ngTemplateOutletContext]="{ $implicit: animal}">
+      </ng-template>
     </tr>
   </tbody>
 </table>
+<div>{{statusMessage}}</div>
+
+<!-- readonly template -->
+<ng-template #readOnlyTemplate let-animal>
+  <td>{{animal.type}}</td>
+  <td>{{animal.name}}</td>
+  <td>{{animal.owner.name}} {{animal.owner.lastName}}</td>
+  <td>
+    <input type="button" value="Edit" (click)="editAnimal(animal)" [disabled] ="isNewRecord" class="btn btn-primary" />
+  </td>
+  <td>
+    <input type="button" value="Delete" (click)="deleteAnimal(animal)" [disabled] ="isNewRecord" class="btn btn-danger"  />
+  </td>
+</ng-template>
+<!-- end of readonly template -->
+
+<!--template for editing-->
+<ng-template #editTemplate>
+  <td>
+    <!--<input type="number" [(ngModel)]="editedUser.id" readonly disabled class="form-control" />-->
+    <!----type edit dropdown ---->
+
+    <select ngbDropDown [(ngModel)]="editedAnimal.type" >
+      <option *ngFor="let type of types" [ngValue]="type">{{type}}</option>
+    </select>
+
+  </td>
+  <td>
+    <input type="text" [(ngModel)]="editedAnimal.name" class="form-control" />
+  </td>
+  <td>
+    <select ngbDropDown [(ngModel)]="editedAnimal.owner">
+      <option *ngFor="let employee of employees" [ngValue]="employee">{{employee.name}} {{employee.lastName}}</option>
+    </select>
+  </td>
+  <td>
+    <input type="button" value="Save" (click)="saveAnimal()" class="btn btn-success" />
+  </td>
+  <td>
+    <input type="button" value="Cancel" (click)="cancel()" class="btn btn-warning" />
+  </td>
+</ng-template>
+<!--end of template for editing-->
