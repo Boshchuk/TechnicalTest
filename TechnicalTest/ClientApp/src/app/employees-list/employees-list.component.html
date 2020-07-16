@@ -4,7 +4,10 @@
 
 <p *ngIf="!employeesList"><em>Loading...</em></p>
 
-<table class='table table-sm table-striped' aria-labelledby="tableLabel" *ngIf="employeesList">
+<input type="button" value="Add" class="btn btn-primary"
+       [disabled]="isNewRecord"
+       (click)="addEmployee()" />
+<table class='table table-sm table-striped' aria-labelledby="tableLabel" *ngIf="employeesList && employeesList.length > 0">
   <thead>
     <tr>
       <th>Name</th>
@@ -15,10 +18,67 @@
   </thead>
   <tbody>
     <tr *ngFor="let employee of employeesList">
-      <td>{{ employee.name }}</td>
-      <td>{{ employee.lastName }}</td>
-      <td class="text-center">{{ employee.isMediaInteractivaEmployee | booleanToYesNo }}</td>
-      <td> --- </td>
+      <ng-template [ngTemplateOutlet]="loadTemplate(employee)"
+                   [ngTemplateOutletContext]="{ $implicit: employee}">
+      </ng-template>
+
     </tr>
   </tbody>
 </table>
+
+<!-- readonly template -->
+<ng-template #readOnlyTemplate let-employee>
+  <td>{{employee.name}}</td>
+  <td>{{employee.lastName}}</td>
+  <td class="text-center">{{ employee.isMediaInteractivaEmployee | booleanToYesNo }}</td>
+  <td>
+    <ul>
+      <li *ngFor="let animal of employee.animals">
+        {{ animal.name }}
+      </li>
+    </ul>
+  </td>
+  <td>
+    <input type="button" value="Edit" (click)="editEmployee(employee)" [disabled]="isNewRecord" class="btn btn-primary" />
+  </td>
+  <td>
+    <input type="button" value="Delete" (click)="deleteEmployee(employee)" [disabled]="isNewRecord" class="btn btn-danger" />
+  </td>
+</ng-template>
+<!-- end of readonly template -->
+<!--template for editing-->
+<ng-template #editTemplate>
+  <td>
+    <input type="text" [(ngModel)]="editedEmployee.name" class="form-control" />
+  </td>
+  <td>
+    <input type="text" [(ngModel)]="editedEmployee.lastName" class="form-control" />
+  </td>
+  <td>
+    <label>
+      <input type="radio" name="yes" [title]="yes" [(ngModel)]="editedEmployee.isMediaInteractivaEmployee" [value]="true">
+      <span>yes</span>
+    </label>
+
+    <label>
+      <input type="radio" name="false" [title]="no" [(ngModel)]="editedEmployee.isMediaInteractivaEmployee" [value]="false">
+      <span>no</span>
+    </label>
+  </td>
+
+  <td>
+    <ul>
+      <li *ngFor="let animal of employee.animals">
+        {{ animal.name }}
+      </li>
+    </ul>
+  </td>
+
+  <td>
+    <input type="button" value="Save" (click)="saveEmployee()" class="btn btn-success" />
+  </td>
+  <td>
+    <input type="button" value="Cancel" (click)="cancelEmployee()" class="btn btn-warning" />
+  </td>
+</ng-template>
+<!--end of template for editing-->
